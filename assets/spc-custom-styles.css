@@ -120,10 +120,11 @@ body {
   float: right;
   height: 100%;
   border: none;
+  color: #91dfd2;
 }
 
 .closeButton:hover {
-  color: #91dfd2;
+  color: red;
 }
 
 /* Tabs
@@ -142,7 +143,7 @@ body {
   cursor: pointer;
 }
 
-#Specs-tab.custom-tab, #Control-chart-tab.custom-tab {
+#Specs-tab.custom-tab, #Control-chart-tab.custom-tab, #Statistics-tab.custom-tab {
   background-color: #161a28;
   letter-spacing: 1px;
   color: inherit;
@@ -156,7 +157,7 @@ body {
   height: 18px;
 }
 
-#Specs-tab.custom-tab--selected, #Control-chart-tab.custom-tab--selected {
+#Specs-tab.custom-tab--selected, #Control-chart-tab.custom-tab--selected, #Statistics-tab.custom-tab--selected{
   border-bottom: #91dfd2 solid 4px !important;
 }
 
@@ -165,6 +166,11 @@ body {
 }
 
 #Control-chart-tab.custom-tab {
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+#Statistics-tab.custom-tab{
   margin-left: 3px;
 }
 
