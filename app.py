@@ -10,6 +10,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 import dash_bootstrap_components as dbc
 from dash.dependencies import State, Input, Output
+import dash_daq as daq
 
 import utils.dash_reusable_components as drc
 
@@ -124,6 +125,27 @@ for state in state_list:
 #--------------------------------------------------------------------
 #                         Layout Helpers
 #--------------------------------------------------------------------
+
+
+#----------------------
+#        Tab-1
+#----------------------
+
+def build_value_setter_line(line_num, label, value, col3):
+    return html.Div(
+        id=line_num,
+        children=[
+            html.Label(label, className="four columns"),
+            html.Label(value, className="four columns"),
+            html.Div(col3, className="four columns"),
+        ],
+        className="row",
+    )
+
+
+#---------------------- 
+#        Tab-2
+#----------------------
 
 def generate_section_banner(title):
     return html.Div(className="section-banner", children=title)
@@ -400,7 +422,34 @@ def build_right_panel():
     )
                 
 def build_tab_1():
-    pass
+    return [
+
+        html.Div(
+            id="set-specs-intro-container",
+            children=html.P(
+                "Set your definition for Herd Immunity"
+            )
+        ),
+
+        html.Div(
+            id="settings-menu",
+            children=[
+                html.Div(
+                    id="value-setter-menu",
+                    children=[
+                        html.Div(id="value-setter-panel"),
+                        html.Br(),
+                        html.Div(
+                            id="button-div",
+                            children=[
+                                html.Button("Update", id="value-setter-set-btn")
+                            ]
+                        )
+                    ]
+                )
+            ]
+        )
+    ]
 
 def build_tab_2():
     pass
@@ -429,6 +478,13 @@ def build_tabs():
                         id="Control-chart-tab",
                         label="Control Charts Dashboard",
                         value="tab2",
+                        className="custom-tab",
+                        selected_className="custom-tab--selected",
+                    ),
+                    dcc.Tab(
+                        id="Statistics-tab",
+                        label="Statistics Dashboard",
+                        value="tab3",
                         className="custom-tab",
                         selected_className="custom-tab--selected",
                     ),
@@ -486,15 +542,105 @@ def generate_map(geo_map_json = india_gj, geo_dataframe = india_data, state_sele
 #                           Callbacks
 #--------------------------------------------------------------------
 
+#----------------------
+#      Tab-1
+#----------------------
+
+rate_input = daq.NumericInput(
+    id="rate_input", className="setting-input", size=200, max=9999999
+)
+days_input = daq.NumericInput(
+    id="days_input", className="setting-input", size=200, max=9999999
+)
+
+@app.callback(
+    output=[
+        Output("value-setter-panel", "children"),
+        Output("rate_input", "value"),
+        Output("days_input", "value")
+    ],
+    state=[State("value-setter-store", "data")],
+)
+def build_value_setter_panel(state_value):
+    return (
+        [
+            build_value_setter_line(
+                "value-setter-panel-header",
+                "Parameter",
+                "Default Value",
+                "Set new value",
+            ),
+            build_value_setter_line(
+                "value-setter-panel-rate",
+                "Rate of Vaccination(%)",
+                50,
+                rate_input,
+            ),
+            build_value_setter_line(
+                "value-setter-panel-days",
+                "Lower Specification limit",
+                2,
+                days_input,
+            )
+        ],
+        50,
+        2
+    )
+
+data = {}
+data['rate'] = 50
+data['days'] = 1
+@app.callback(
+    output=Output("value-setter-store", "data"),
+    inputs=[Input("value-setter-set-btn", "n_clicks")],
+    state=[
+        State("metric-select-dropdown", "value"),
+        State("value-setter-store", "data"),
+        State("rate_input", "value"),
+        State("days_input", "value"),
+    ],
+)
+def set_value_setter_store(set_btn, param, data, rate, days):
+    if set_btn is None:
+        return data
+    else:
+        data["rate"] = rate
+        data["days"] = days
+        return data
+
+#----------------------
+#      Tab-2
+#----------------------
+
+@app.callback(
+    Output("app-content", "children"),
+    [Input("app-tabs", "value")]
+)
+def render_tab_content(tab_switch):
+    if tab_switch == "tab1":
+        return build_tab_1()
+    elif tab_switch == "tab2":
+        return build_tab_2()
+    else:
+        return build_tab_3()
+
 @app.callback(
     Output("geo-map", "figure"),
-    [Input("dropdown-select-state", "value"),],
+    [Input("dropdown-select-state", "value")]
 )
 def update_geo_map(state_select):
     state_agg_data = data_dict[state_select]
     map_gj = gj_dict[state_select]
     return generate_map(map_gj, state_agg_data, state_select)
 
+#----------------------
+#      Tab-3
+#----------------------
+
+
+#----------------------
+#      Others
+#----------------------
 
 @app.callback(
     Output("markdown", "style"),
@@ -530,6 +676,22 @@ app.layout = html.Div(
         ),
         build_modal()
     ]
+)
+
+app.layout = html.Div(
+    id="big-app-container",
+    children=[
+        build_banner(),
+        html.Div(
+            id="app-container",
+            children=[
+                build_tabs(),
+                # Main app
+                html.Div(id="app-content"),
+            ],
+        ),
+        build_modal(),
+    ],
 )
 
 #--------------------------------------------------------------------
