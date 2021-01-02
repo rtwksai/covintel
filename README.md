@@ -18,4 +18,10 @@ $ cd src
 $ python3 app.py
 ```
 
+To run using docker
+
+```
+$ docker build -t ey .
+$ docker run --rm -it -p 8050:8050 ey
+```
 
