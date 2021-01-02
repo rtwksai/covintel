@@ -13,15 +13,13 @@ To run this project, follow these steps
 ```
 $ cd ey-hackathon
 $ pipenv install
-$ pipenv shell
-$ cd src
-$ python3 app.py
+$ pipenv python3 app.py
 ```
 
 To run using docker
 
-```
-$ docker build -t ey .
-$ docker run --rm -it -p 8050:8050 ey
+```sh
+$ docker-compose build
+$ docker-compose up
 ```
 
