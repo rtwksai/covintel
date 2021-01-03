@@ -373,7 +373,7 @@ def build_right_panel():
             # Metrics summary
             html.Div(
                 id="metric-summary-session",
-                className="five columns",
+                className="four columns",
                 children=[
                     generate_section_banner("CoVID-19 Vaccine metrics Summary"),
                     html.Div(
@@ -395,9 +395,9 @@ def build_right_panel():
 
             html.Div(
                 id="ooc-geomap-outer",
-                className="five columns",
+                className="four columns",
                 children=[
-                    generate_section_banner("% OOC per Parameter"),
+                    generate_section_banner("Map Spec"),
                     html.Div(
                         id="geo-map-loading-outer",
                         children=[
@@ -559,9 +559,10 @@ days_input = daq.NumericInput(
         Output("rate_input", "value"),
         Output("days_input", "value")
     ],
+    inputs=[Input("metric-select-dropdown", "value")],
     state=[State("value-setter-store", "data")],
 )
-def build_value_setter_panel(state_value):
+def build_value_setter_panel(dd_select, state_value):
     return (
         [
             build_value_setter_line(
@@ -583,8 +584,8 @@ def build_value_setter_panel(state_value):
                 days_input,
             )
         ],
-        50,
-        2
+        state_value['rate'],
+        state_value['days']
     )
 
 data = {}
@@ -604,13 +605,10 @@ def set_value_setter_store(set_btn, param, data, rate, days):
     if set_btn is None:
         return data
     else:
-        data["rate"] = rate
-        data["days"] = days
+        data[param]["rate"] = rate
+        data[param]["days"] = days
         return data
 
-#----------------------
-#      Tab-2
-#----------------------
 
 @app.callback(
     Output("app-content", "children"),
@@ -620,7 +618,16 @@ def render_tab_content(tab_switch):
     if tab_switch == "tab1":
         return build_tab_1()
     elif tab_switch == "tab2":
-        return build_tab_2()
+        return html.Div(
+            id="status-container",
+            children=[
+                build_left_panel(),
+                html.Div(
+                    id="graphs-container",
+                    children=[build_right_panel()],
+                )
+            ]
+        )
     else:
         return build_tab_3()
 
@@ -661,24 +668,6 @@ def update_click_output(button_click, close_click):
 #--------------------------------------------------------------------
 
 app.layout = html.Div(
-    className = "app-container",
-    children = [
-        build_banner(),
-        html.Div(
-            id="status-container",
-            children=[
-                build_left_panel(),
-                html.Div(
-                    id="graphs-container",
-                    children=[build_right_panel()],
-                ),
-            ],
-        ),
-        build_modal()
-    ]
-)
-
-app.layout = html.Div(
     id="big-app-container",
     children=[
         build_banner(),
@@ -699,4 +688,4 @@ app.layout = html.Div(
 #--------------------------------------------------------------------
 
 if __name__ == '__main__':
-    app.run_server(debug=True, port=8086)
+    app.run_server(debug=True, port=8069)
