@@ -270,7 +270,7 @@ def generate_metric_row(id, style, col1, col2):
             html.Div(
                 id=col1["id"],
                 className="one columns",
-                style={"margin-right": "2.5rem", "minWidth": "50px"},
+                style={"marginRight": "2.5rem", "minWidth": "50px"},
                 children=col1["children"],
             ),
             html.Div(
@@ -526,7 +526,7 @@ def generate_map(geo_map_json = india_gj, geo_dataframe = india_data, state_sele
         mapbox=go.layout.Mapbox(
             accesstoken=mapbox_access_token,
             bearing=10,
-            style='white-bg',
+            style='dark',
             center=go.layout.mapbox.Center(
                 lat=state_map[state_select]["lat"], lon=state_map[state_select]["long"]
             ),
