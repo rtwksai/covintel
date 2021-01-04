@@ -101,6 +101,10 @@ state_map = {
 
 state_list = list(state_map.keys())
 
+with open('./assets/states-and-districts.json') as dist_json:
+    state_districts_data = json.load(dist_json)
+
+
 # Load national and statewise data
 india_data = pd.read_csv('./data/state_data/prediction_IN.csv')
 
@@ -227,34 +231,27 @@ def build_left_panel():
                 options=[{"label": state_map[i]["state"], "value": i} for i in state_list],
                 clearable=False,
                 searchable=True,
-                value="IN",
+                value="AP",
             ),
 
-            drc.NamedSlider(
-                name="Slider 1",
-                id="slider-days",
-                min=100,
-                max=500,
-                step=100,
-                marks={
-                    str(i): str(i)
-                    for i in [100, 200, 300, 400, 500]
-                },
-                value=300,
+            drc.NamedDropdown(
+                name="Select State",
+                id="dropdown-select-district",
+                # options=[{"label": state_map[i]["state"], "value": i} for i in state_list],
+                options= [ {"label" : i, "value" : i} for i in state_districts_data['states'][0]['districts'] ],
+                clearable=False,
+                searchable=True,
+                value="Anantapur",
             ),
 
-            drc.NamedSlider(
-                name="Slider 2",
-                id="slider-something",
-                min=0,
-                max=1,
-                marks={
-                    i / 10: str(i / 10)
-                    for i in range(0, 11, 2)
-                },
-                step=0.1,
-                value=0.2,
-            ),           
+            dcc.RadioItems(
+                options=[
+                    {'label': 'New Cases', 'value': 'NC'},
+                    {'label': 'Recovered', 'value': 'RC'},
+                    {'label': 'Vaccinated', 'value': 'VC'}
+                ],
+                value='NC'
+            )
         ]
     )
 
@@ -367,57 +364,99 @@ def generate_metric_list_header():
 
 def build_right_panel():
     return html.Div(
-        id="top-section-container",
-        className="row",
+        id="status-container",
+        # className="row",
         children=[
             # Metrics summary
-            html.Div(
-                id="metric-summary-session",
-                className="four columns",
-                children=[
-                    generate_section_banner("CoVID-19 Vaccine metrics Summary"),
+            # html.Div(
+            #     id="metric-summary-session",
+            #     className="four columns",
+            #     children=[
+            #         generate_section_banner("CoVID-19 Vaccine metrics Summary"),
+            #         html.Div(
+            #             id="metric-div",
+            #             children=[
+            #                 generate_metric_list_header(),
+            #                 html.Div(
+            #                     id="metric-rows",
+            #                     children=[
+            #                         generate_metric_row_helper(0),
+            #                         generate_metric_row_helper(1),
+            #                         # generate_metric_row_helper(2),
+            #                     ]
+            #                 )
+            #             ]
+            #         )
+            #     ]
+            # ),
+
+
                     html.Div(
-                        id="metric-div",
+                        id="quick-stats",
+                        className="twelve columns",
                         children=[
-                            generate_metric_list_header(),
-                            html.Div(
-                                id="metric-rows",
-                                children=[
-                                    generate_metric_row_helper(0),
-                                    generate_metric_row_helper(1),
-                                    generate_metric_row_helper(2),
-                                ]
+                            generate_section_banner("Put a heading here"),
+                            # Choose State
+                            drc.NamedDropdown(
+                                name="Select State",
+                                id="dropdown-select-state",
+                                options=[{"label": state_map[i]["state"], "value": i} for i in state_list],
+                                clearable=False,
+                                searchable=True,
+                                value="AP",
+                            ),
+
+                            drc.NamedDropdown(
+                                name="Select State",
+                                id="dropdown-select-district",
+                                # options=[{"label": state_map[i]["state"], "value": i} for i in state_list],
+                                options= [ {"label" : i, "value" : i} for i in state_districts_data['states'][0]['districts'] ],
+                                clearable=False,
+                                searchable=True,
+                                value="Anantapur",
+                            ),
+
+                            dcc.RadioItems(
+                                options=[
+                                    {'label': 'New Cases', 'value': 'NC'},
+                                    {'label': 'Recovered', 'value': 'RC'},
+                                    {'label': 'Vaccinated', 'value': 'VC'}
+                                ],
+                                value='NC'
                             )
                         ]
-                    )
-                ]
-            ),
+                    ),
 
-            html.Div(
-                id="ooc-geomap-outer",
-                className="four columns",
-                children=[
-                    generate_section_banner("Map Spec"),
+            # html.Div(
+            #     className="row",
+                # children=[
                     html.Div(
-                        id="geo-map-loading-outer",
+                        id="ooc-geomap-outer",
+                        className="twelve columns",
                         children=[
-                            dcc.Loading(
-                                id="loading",
-                                children=dcc.Graph(
-                                    id="geo-map",
-                                    figure={
-                                        "data": [],
-                                        "layout": dict(
-                                            plot_bgcolor="#171b26",
-                                            paper_bgcolor="#171b26",
+                            generate_section_banner("Map Spec"),
+                            html.Div(
+                                id="geo-map-loading-outer",
+                                children=[
+                                    dcc.Loading(
+                                        id="loading",
+                                        children=dcc.Graph(
+                                            id="geo-map",
+                                            figure={
+                                                "data": [],
+                                                "layout": dict(
+                                                    plot_bgcolor="#171b26",
+                                                    paper_bgcolor="#171b26",
+                                                ),
+                                            },
                                         ),
-                                    },
-                                ),
-                            )
+                                    )
+                                ],
+                            ),
                         ],
                     ),
-                ],
-            ),
+                # ]
+            # )
         ]
     )
                 
@@ -427,7 +466,7 @@ def build_tab_1():
         html.Div(
             id="set-specs-intro-container",
             children=html.P(
-                "Set your definition for Herd Immunity"
+                "Set your parameters for Herd Immunity"
             )
         ),
 
@@ -437,14 +476,64 @@ def build_tab_1():
                 html.Div(
                     id="value-setter-menu",
                     children=[
-                        html.Div(id="value-setter-panel"),
-                        html.Br(),
                         html.Div(
-                            id="button-div",
+                            id="value-setter-panel",
                             children=[
-                                html.Button("Update", id="value-setter-set-btn")
+                                html.Div(
+                                    className='row',
+                                    children=[
+                                        html.Div(
+                                            className='six columns',
+                                            children=[
+                                                drc.NamedSlider(
+                                                    name="Set the threshold for number of cases",
+                                                    id="slider-threshold-perc",
+                                                    min=0,
+                                                    max=15,
+                                                    marks={
+                                                        i: str(i)
+                                                        for i in range(0, 16, 5)
+                                                    },
+                                                    step=5,
+                                                    value=5,
+                                                )
+                                            ]
+                                        ),
+                                        html.Div(
+                                            className='six columns',
+                                            children=[
+                                                drc.NamedSlider(
+                                                    name="Select the number of days",
+                                                    id="slider-num-days",
+                                                    min=0,
+                                                    max=15,
+                                                    marks={
+                                                        i: str(i)
+                                                        for i in range(0, 16, 3)
+                                                    },
+                                                    step=3,
+                                                    value=3,
+                                                )
+                                            ],
+                                        )
+                                    ]
+                                ),
+                                html.Br(),
+                                html.Div(
+                                    className='twelve columns',
+                                    children=[
+                                        html.H3(id='slider-output')
+                                    ]
+                                )
                             ]
-                        )
+                        ),
+                        # html.Br(),
+                        # html.Div(
+                        #     id="button-div",
+                        #     children=[
+                        #         html.Button("Update", id="value-setter-set-btn")
+                        #     ]
+                        # )
                     ]
                 )
             ]
@@ -455,7 +544,7 @@ def build_tab_2():
     pass
 
 def build_tab_3():
-    pass
+    return html.Div()
                      
 def build_tabs():
     return html.Div(
@@ -518,8 +607,8 @@ def generate_map(geo_map_json = india_gj, geo_dataframe = india_data, state_sele
 
     layout = go.Layout(
         margin=dict(l=10, r=10, t=20, b=10, pad=5),
-        # plot_bgcolor="#171b26",
-        # paper_bgcolor="#171b26",
+        plot_bgcolor="#171b26",
+        paper_bgcolor="#171b26",
         clickmode="event+select",
         hovermode="closest",
         showlegend=False,
@@ -546,68 +635,83 @@ def generate_map(geo_map_json = india_gj, geo_dataframe = india_data, state_sele
 #      Tab-1
 #----------------------
 
-rate_input = daq.NumericInput(
-    id="rate_input", className="setting-input", size=200, max=9999999
-)
-days_input = daq.NumericInput(
-    id="days_input", className="setting-input", size=200, max=9999999
-)
-
 @app.callback(
-    output=[
-        Output("value-setter-panel", "children"),
-        Output("rate_input", "value"),
-        Output("days_input", "value")
-    ],
-    inputs=[Input("metric-select-dropdown", "value")],
-    state=[State("value-setter-store", "data")],
+    Output("slider-output", 'children'),
+    inputs=[
+        Input('slider-threshold-perc', 'value'),
+        Input('slider-num-days', 'value')
+    ]
 )
-def build_value_setter_panel(dd_select, state_value):
-    return (
-        [
-            build_value_setter_line(
-                "value-setter-panel-header",
-                "Parameter",
-                "Default Value",
-                "Set new value",
-            ),
-            build_value_setter_line(
-                "value-setter-panel-rate",
-                "Rate of Vaccination(%)",
-                50,
-                rate_input,
-            ),
-            build_value_setter_line(
-                "value-setter-panel-days",
-                "Lower Specification limit",
-                2,
-                days_input,
-            )
-        ],
-        state_value['rate'],
-        state_value['days']
-    )
+def calculate_herd_immunity(threshold, days):
 
-data = {}
-data['rate'] = 50
-data['days'] = 1
-@app.callback(
-    output=Output("value-setter-store", "data"),
-    inputs=[Input("value-setter-set-btn", "n_clicks")],
-    state=[
-        State("metric-select-dropdown", "value"),
-        State("value-setter-store", "data"),
-        State("rate_input", "value"),
-        State("days_input", "value"),
-    ],
-)
-def set_value_setter_store(set_btn, param, data, rate, days):
-    if set_btn is None:
-        return data
-    else:
-        data[param]["rate"] = rate
-        data[param]["days"] = days
-        return data
+    # Add function and hardcode data here
+
+    result = f"Number of cases less than {threshold} for {days} days is ANSWER"
+    return result
+
+
+# rate_input = daq.NumericInput(
+#     id="rate_input", className="setting-input", size=200, max=9999999
+# )
+# days_input = daq.NumericInput(
+#     id="days_input", className="setting-input", size=200, max=9999999
+# )
+
+# @app.callback(
+#     output=[
+#         Output("value-setter-panel", "children"),
+#         Output("rate_input", "value"),
+#         Output("days_input", "value")
+#     ],
+#     inputs=[Input("metric-select-dropdown", "value")],
+#     state=[State("value-setter-store", "data")],
+# )
+# def build_value_setter_panel(dd_select, state_value):
+#     return (
+#         [
+#             build_value_setter_line(
+#                 "value-setter-panel-header",
+#                 "Parameter",
+#                 "Default Value",
+#                 "Set new value",
+#             ),
+#             build_value_setter_line(
+#                 "value-setter-panel-rate",
+#                 "Rate of Vaccination(%)",
+#                 50,
+#                 rate_input,
+#             ),
+#             build_value_setter_line(
+#                 "value-setter-panel-days",
+#                 "Lower Specification limit",
+#                 2,
+#                 days_input,
+#             )
+#         ],
+#         state_value['rate'],
+#         state_value['days']
+#     )
+
+# data = {}
+# data['rate'] = 50
+# data['days'] = 1
+# @app.callback(
+#     output=Output("value-setter-store", "data"),
+#     inputs=[Input("value-setter-set-btn", "n_clicks")],
+#     state=[
+#         State("metric-select-dropdown", "value"),
+#         State("value-setter-store", "data"),
+#         State("rate_input", "value"),
+#         State("days_input", "value"),
+#     ],
+# )
+# def set_value_setter_store(set_btn, param, data, rate, days):
+#     if set_btn is None:
+#         return data
+#     else:
+#         data[param]["rate"] = rate
+#         data[param]["days"] = days
+#         return data
 
 
 @app.callback(
@@ -621,11 +725,12 @@ def render_tab_content(tab_switch):
         return html.Div(
             id="status-container",
             children=[
-                build_left_panel(),
-                html.Div(
-                    id="graphs-container",
-                    children=[build_right_panel()],
-                )
+                # build_left_panel(),
+                # html.Div(
+                #     id="graphs-container",
+                #     children=[build_right_panel()],
+                # )
+                build_right_panel()
             ]
         )
     else:
