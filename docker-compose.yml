@@ -6,4 +6,4 @@ services:
       - "8069:8069"
     restart: "always"
     environment:
-      - "PORT=8069
+      - "PORT=8069"
