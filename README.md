@@ -35,6 +35,12 @@ $ docker-compose build
 $ docker-compose up
 ```
 
+## UI
+
+The app is still in development phase. Currently, the user can find the number of future cases in a particular state or a district.
+
+<img src="https://raw.githubusercontent.com/DaKeiser/vaccine-efficacy-prediction/master/assets/ui.png" width="800">
+
 ## Contributors
 - [Arpitha Malavalli](https://github.com/ArpithaMalavalli)
 - [Nikitha Adivi](https://github.com/NikiAdivi)
