@@ -8,5 +8,7 @@ COPY . .
 
 RUN pipenv install --dev
 
+RUN pipenv run python3 model.py
+
 EXPOSE 8069
 ENTRYPOINT pipenv run python3 app.py
