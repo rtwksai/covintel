@@ -12,7 +12,7 @@ import dash_bootstrap_components as dbc
 from dash.dependencies import State, Input, Output
 import dash_daq as daq
 
-import utils.dash_reusable_components as drc
+from utils import dash_reusable_components as drc
 
 import numpy as np
 import pandas as pd
@@ -103,7 +103,7 @@ state_list = list(state_map.keys())
 
 with open('./data/states-and-districts.json') as dist_json:
     state_districts_data = json.load(dist_json)
-    print(state_districts_data)
+    # print(state_districts_data)
 
 
 # Load national and statewise data
@@ -166,33 +166,6 @@ new = {
         86,  64,  54,  81,  39, 105,  42,  52,  50,  65,  44,  59,  56,  21,
         82]
 }
-
-# next_10_AP_new
-# [22.72289, 20.028719, 24.946384, 16.745039, 12.908516, 11.8969345, 9.798095, 7.095938, 5.650536, 4.5190225]
-# next_10_KA_new
-# [236.10135, 329.7248, 332.27188, 199.36206, 272.22714, 298.9423, 305.8914, 318.07083, 308.18588, 348.57758]
-
-
-# # 30 Previous Days
-# Month_data_for_AP - [0.01991479 0.01993805 0.01995364 0.01997809 0.02000255 0.02002629
-#  0.02005291 0.02006178 0.02008743 0.02010686 0.02014091 0.02016368
-#  0.02018407 0.02021044 0.02021883 0.02023562 0.02025336 0.02026871
-#  0.02028837 0.0202958  0.02032626 0.02033609 0.02035407 0.02037469
-#  0.02039052 0.02040227 0.02041521 0.02043727 0.02043727]
-# Month_data_for_KA - [0.03665662 0.03691806 0.03739247 0.03752262 0.03761887 0.03777604
-#  0.03794039 0.03804259 0.03812519 0.0382155  0.0382617  0.03843002
-#  0.03848112 0.03855506 0.0386266  0.03869898 0.0387822  0.03884477
-#  0.03889597 0.03897461 0.03904281 0.03913072 0.0392105  0.03929904
-#  0.03936245 0.03941074 0.03944223 0.03951815 0.03951815]
-# # Number of new cases
-# Month_data_for_AP - [ 76.  76.  95. 108.  89. 104.  43.  88.  89. 130.  98.  87.  80.  46.
-#   86.  64.  54.  81.  39. 105.  42.  52.  50.  65.  44.  59.  56.  21.
-#    0.]
-# Month_data_for_KA - [638. 728. 701. 659. 606. 672. 369. 673. 676. 689. 687. 586. 659. 363.
-#  585. 550. 642. 578. 471. 542. 309. 370. 554. 554. 464. 343. 464. 298.
-#    0.]
-
-
 
 #--------------------------------------------------------------------
 #                         Layout Helpers
@@ -275,8 +248,8 @@ def build_modal():
 
                         ###### What does this app show
 
-                        Shows nothing as of now.
-
+                        Tracking the number of New cases, Deceased cases, and Immune cases as the vaccination process kick-off.  This is followed by predicting the trends of the same for the future. From this, we can gain insight into Drop-in COVID +ve cases and deaths  in States/Region and areas where vaccination has been prevalent the  high-risk areas that require vaccination with high priority the number of potential COVID-19 cases at States/Regions  and areas where vaccination has been prevalent.
+ 
                     """
                             )
                         ),
@@ -333,7 +306,7 @@ def generate_metric_row_helper(index, state=None, district=None, output_type=Non
 
     if state:
         #GET Data for Data
-        print(state, district, output_type)
+        # print(state, district, output_type)
         if index == 0:
             #Last One Month
             if output_type=='NC':
@@ -823,17 +796,17 @@ def update_graphs(district, output_type, state):
     State('dropdown-select-state', 'value')
 )
 def predict_vacc_effect(perc, district=None, state=None):
-    print(perc, state, district)
+    # print(perc, state, district)
 
     name = str(district) + "_v" + str(perc)
-    print(name)
+    # print(name)
 
     x = [i for i in range(11)]
     y = vaccinated[name]
     df = pd.DataFrame( {'day' : x, 'cases' : y} )
     graph_title = "Cases in {0}, {1} after vaccinating {2}% of the population".format(district, state, perc)
     title = f"Cases in {district}, {state} after vaccinating {perc}% of the population."
-    print(perc, state, district, "2")
+    # print(perc, state, district, "2")
 
     fig = px.line(
         df,
@@ -845,73 +818,6 @@ def predict_vacc_effect(perc, district=None, state=None):
     fig.update()
 
     return fig
-
-
-
-
-# rate_input = daq.NumericInput(
-#     id="rate_input", className="setting-input", size=200, max=9999999
-# )
-# days_input = daq.NumericInput(
-#     id="days_input", className="setting-input", size=200, max=9999999
-# )
-
-# @app.callback(
-#     output=[
-#         Output("value-setter-panel", "children"),
-#         Output("rate_input", "value"),
-#         Output("days_input", "value")
-#     ],
-#     inputs=[Input("metric-select-dropdown", "value")],
-#     state=[State("value-setter-store", "data")],
-# )
-# def build_value_setter_panel(dd_select, state_value):
-#     return (
-#         [
-#             build_value_setter_line(
-#                 "value-setter-panel-header",
-#                 "Parameter",
-#                 "Default Value",
-#                 "Set new value",
-#             ),
-#             build_value_setter_line(
-#                 "value-setter-panel-rate",
-#                 "Rate of Vaccination(%)",
-#                 50,
-#                 rate_input,
-#             ),
-#             build_value_setter_line(
-#                 "value-setter-panel-days",
-#                 "Lower Specification limit",
-#                 2,
-#                 days_input,
-#             )
-#         ],
-#         state_value['rate'],
-#         state_value['days']
-#     )
-
-# data = {}
-# data['rate'] = 50
-# data['days'] = 1
-# @app.callback(
-#     output=Output("value-setter-store", "data"),
-#     inputs=[Input("value-setter-set-btn", "n_clicks")],
-#     state=[
-#         State("metric-select-dropdown", "value"),
-#         State("value-setter-store", "data"),
-#         State("rate_input", "value"),
-#         State("days_input", "value"),
-#     ],
-# )
-# def set_value_setter_store(set_btn, param, data, rate, days):
-#     if set_btn is None:
-#         return data
-#     else:
-#         data[param]["rate"] = rate
-#         data[param]["days"] = days
-#         return data
-
 
 @app.callback(
     Output("app-content", "children"),
