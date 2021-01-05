@@ -17,6 +17,8 @@ flask-caching = "*"
 gunicorn = "*"
 ipywidgets = "*"
 colorlover = "*"
+sklearn = "*"
+xgboost = "*"
 
 [dev-packages]
 
