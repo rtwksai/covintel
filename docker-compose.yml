@@ -3,7 +3,7 @@ services:
   app:
     build: .
     ports:
-      - "8050:8050"
+      - "8069:8069"
     restart: "always"
     environment:
-      - "PORT=8050"
+      - "PORT=8069
