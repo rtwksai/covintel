@@ -1,6 +1,12 @@
-# ey-hackathon
+<h1 align="center">
+  <br>
+  <img src="https://raw.githubusercontent.com/DaKeiser/vaccine-efficacy-prediction/master/assets/chaos-td.png" alt="Chaos" width="200">
+  <br>
+  Vaccine Efficacy Tracker
+  <br>
+</h1>
 
-EY Hackathon Covid Efficacy Tracker
+<h3 align="center">An AI solution to track the Covid Vaccine Efficacy for <a href="https://www.ey.com/en_in/techathon" target="_blank">EY Techathon</a></h3>
 
 ## Installation
 ```
@@ -28,4 +34,11 @@ To run using docker
 $ docker-compose build
 $ docker-compose up
 ```
+
+## Contributors
+- [Arpitha Malavalli](https://github.com/ArpithaMalavalli)
+- [Nikitha Adivi](https://github.com/NikiAdivi)
+- [Sai Rithwik M](https://github.com/DaKeiser)
+- [Saiakash Konidena](https://github.com/sal2701)
+- [Sama Sai Karthik](https://github.com/Kartik-Sama)
 
