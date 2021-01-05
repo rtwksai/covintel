@@ -283,14 +283,39 @@ suffix_row = "_row"
 suffix_button_id = "_button"
 suffix_sparkline_graph = "_sparkline_graph"
 
-params = ['parameter_1', 'parameter_2', 'parameter_3']
+params = ['Last one Month', 'Next 10 days']
 
-def generate_metric_row_helper(index):
+def generate_metric_row_helper(index, state=None, district=None, output_type=None):
     item = params[index]
 
     div_id = item + suffix_row
     button_id = item + suffix_button_id
     sparkline_graph_id = item + suffix_sparkline_graph
+
+    if index == 0:
+        #Last One Month
+        data_x = [x for x in range(30, 0, -1)]
+    elif index == 1:
+        #Next 10 days
+        data_x = [x for x in range(11)]
+
+    if state:
+        #GET Data for Data
+        print(state, district, output_type)
+        if index == 0:
+            #Last One Month
+            data_y = [random.randint(0, y) for y in range(30)]
+        elif index == 1:
+            #Next 10 days
+            data_y = [random.randint(0, y) for y in range(10)]
+    else:
+        if index == 0:
+            #Last One Month
+            data_y = [random.randint(0, y) for y in range(30)]
+        elif index == 1:
+            #Next 10 days
+            data_y = [random.randint(0, y) for y in range(10)]
+
 
     return generate_metric_row(
         div_id,
@@ -323,8 +348,8 @@ def generate_metric_row_helper(index):
                     {
                         "data": [
                             {
-                                "x": [x for x in range(10)],
-                                "y": [random.randint(0, y) for y in range(10)],
+                                "x": data_x,
+                                "y": data_y,
                                 "mode": "lines+markers",
                                 "name": item,
                                 "line": {"color": "#f4d44d"},
@@ -368,29 +393,6 @@ def build_right_panel():
         # className="row",
         children=[
             # Metrics summary
-            # html.Div(
-            #     id="metric-summary-session",
-            #     className="four columns",
-            #     children=[
-            #         generate_section_banner("CoVID-19 Vaccine metrics Summary"),
-            #         html.Div(
-            #             id="metric-div",
-            #             children=[
-            #                 generate_metric_list_header(),
-            #                 html.Div(
-            #                     id="metric-rows",
-            #                     children=[
-            #                         generate_metric_row_helper(0),
-            #                         generate_metric_row_helper(1),
-            #                         # generate_metric_row_helper(2),
-            #                     ]
-            #                 )
-            #             ]
-            #         )
-            #     ]
-            # ),
-
-
                     html.Div(
                         id="quick-stats",
                         className="twelve columns",
@@ -417,6 +419,7 @@ def build_right_panel():
                             ),
 
                             dcc.RadioItems(
+                                id='radio-output-type',
                                 options=[
                                     {'label': 'New Cases', 'value': 'NC'},
                                     {'label': 'Recovered', 'value': 'RC'},
@@ -454,6 +457,27 @@ def build_right_panel():
                                 ],
                             ),
                         ],
+                    ),
+                    html.Div(
+                        id="metric-summary-session",
+                        className="twelve columns",
+                        children=[
+                            generate_section_banner("CoVID-19 Vaccine metrics Summary"),
+                            html.Div(
+                                id="metric-div",
+                                children=[
+                                    generate_metric_list_header(),
+                                    html.Div(
+                                        id="metric-rows",
+                                        children=[
+                                            generate_metric_row_helper(0),
+                                            generate_metric_row_helper(1),
+                                            # generate_metric_row_helper(2),
+                                        ]
+                                    )
+                                ]
+                            )
+                        ]
                     ),
                 # ]
             # )
@@ -544,7 +568,25 @@ def build_tab_2():
     pass
 
 def build_tab_3():
-    return html.Div()
+    return html.Div(
+        children=[
+            drc.NamedSlider(
+                name="Select % of population to vaccinate",
+                id="slider-vac-perc",
+                min=0,
+                max=100,
+                marks={
+                    i: str(i)
+                    for i in range(0, 101, 10)
+                },
+                step=10,
+                value=10,
+            ),
+            dcc.Graph(
+                id='vac-graph'
+            )
+        ]
+    )
                      
 def build_tabs():
     return html.Div(
@@ -597,7 +639,7 @@ def generate_map(geo_map_json = india_gj, geo_dataframe = india_data, state_sele
                                 z=geo_dataframe.loc[:, 'Active Cases'], 
                                 zmin=0,
                                 zmax=1000,
-                                colorscale='Cividis',
+                                colorscale='YlOrRd',
                                 colorbar=dict(title='Cases',
                                             len=0.8,
                                             lenmode='fraction'))
@@ -648,6 +690,68 @@ def calculate_herd_immunity(threshold, days):
 
     result = f"Number of cases less than {threshold} for {days} days is ANSWER"
     return result
+
+
+#----------------------
+#      Tab-2
+#----------------------
+
+@app.callback(
+    Output("dropdown-select-district", "options"),
+    Input("dropdown-select-state", "value")
+)
+def dropdown_district(state_name):
+    state_name = state_map[state_name]['state']
+    for state in state_districts_data['states']:
+        # print(state['state'])
+        # print(state_name)
+        if state['state'] == state_name:
+            # print(type(state['districts']))
+            return [ { "label" : str(i), "value" : str(i) } for i in state['districts'] ]
+
+
+@app.callback(
+    Output('metric-rows', 'children'),
+    Input('dropdown-select-district', 'value'),
+    Input('radio-output-type', 'value'),
+    State('dropdown-select-state', 'value')
+)
+def update_graphs(district, output_type, state):
+
+    children = [
+        generate_metric_row_helper(0, state, district, output_type),
+        generate_metric_row_helper(1, state, district, output_type)
+    ]
+    return children
+
+
+#----------------------
+#      Tab-3
+#----------------------
+@app.callback(
+    Output('vac-graph', 'figure'),
+    Input('slider-vac-perc', 'value'),
+    # State('dropdown-select-state', 'value'),
+    # State('radio-output-type', 'value')
+)
+def predict_vacc_effect(perc, state=None, district=None):
+    print('LOL Triggered')
+    x = [i for i in range(100)]
+    y = [random.randint(0, i) for i in range(100)]
+    df = pd.DataFrame( {'day' : x, 'cases' : y} )
+
+    fig = px.line(
+        df,
+        x='day',
+        y='cases',
+        title=f"Cases in {district}, {state} after vaccinating {perc}% of the population",
+    )
+
+    fig.update_layout(transition_duration=100)
+
+    return fig
+
+
 
 
 # rate_input = daq.NumericInput(
