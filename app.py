@@ -103,6 +103,7 @@ state_list = list(state_map.keys())
 
 with open('./data/states-and-districts.json') as dist_json:
     state_districts_data = json.load(dist_json)
+    print(state_districts_data)
 
 
 # Load national and statewise data
@@ -125,6 +126,73 @@ for state in state_list:
     p = os.getcwd().split(os.path.sep)
     geojson_path = "./maps/{}.geojson".format(state)
     gj_dict[state] = geojson_path
+
+
+# DATA
+
+# Percentage Population Vaccinated
+vaccinated = {
+    'Bengaluru (Bangalore) Urban_v0' : [403, 433, 417, 330, 310, 265, 289, 340, 316, 317, 344],
+    'Bengaluru (Bangalore) Urban_v10' : [403, 433, 417, 330, 310, 254, 279, 324, 302, 313, 323],
+    'Bengaluru (Bangalore) Urban_v30' : [329, 405, 348, 310, 263, 215, 266, 285, 263, 273, 284],
+    'Bengaluru (Bangalore) Urban_v50' : [63, 105, 72, 77, 80, 69, 75, 102, 66, 63, 68],
+    'Bengaluru (Bangalore) Urban_v90' : [0, 31, 7, 16, 38, 21, 26, 48, 12, 5, 4],
+    'Chittoor_v0' : [50, 46, 53, 44, 30, 27, 20, 22, 26, 24, 23],
+    'Chittoor_v10' : [34, 35, 36, 32, 22, 22, 13, 19, 21, 19, 16],
+    'Chittoor_v30' : [34, 35, 36, 32, 22, 22, 13, 16, 18, 19, 16],
+    'Chittoor_v50' : [8, 9, 11, 7, 6, 4, 5, 3, 3, 2, 3],
+    'Chittoor_v90' : [2, 1, 2, 0, 1, 0, 2, 2, 0, 0, 0]
+}
+
+# Next 10 day recover / new
+recover = {
+    'KA_10' : [347763.0 ,347555.0 ,347608.0 ,346345.0 ,347555.0 ,347555.0 ,347555.0 ,347555.0 ,347555.0 ,347555.0 ],
+    'AP_10' : [85571.0 ,85623.0 ,85623.0 ,85623.0 ,85623.0 ,85392.0 ,85392.0 ,85392.0 ,85392.0 ,85392.0 ,],
+    'KA_30' : [351497, 354004, 358553, 359801, 360724, 362231, 363807, 364787, 365578, 366445,
+             366888, 368502, 368992, 369701, 370386, 371081, 371879, 372479, 372970, 373724,
+             374378, 375221, 375985, 376835, 377443, 377906, 378208, 378936, 378936],
+    'AP_30' : [83054, 83151, 83216, 83318, 83420, 83519, 83630, 83667, 83774, 83855, 83997, 84092,
+        84177, 84287, 84322, 84392, 84466, 84530, 84612, 84643, 84770, 84811, 84886, 84972,
+        85038, 85087, 85141, 85233, 85262]
+}
+
+new = {
+    'KA_10' : [234.0 ,206.0 ,335.0 ,219.0 ,210.0 ,206.0 ,155.0 ,119.0 ,100.0 ,75.0],
+    'AP_10' : [51.0 ,54.0 ,55.0 ,55.0 ,53.0 ,53.0 ,52.0 ,52.0 ,52.0 ,52.0],
+    'KA_30' : [638, 728, 701, 659, 606, 672, 369, 673, 676, 689, 687, 586, 659, 363,
+            585, 550, 642, 578, 471, 542, 309, 370, 554, 554, 464, 343, 464, 298,
+            300],
+    'AP_30' : [ 76,  76,  95, 108,  89, 104,  43,  88,  89, 130,  98,  87,  80,  46,
+        86,  64,  54,  81,  39, 105,  42,  52,  50,  65,  44,  59,  56,  21,
+        82]
+}
+
+# next_10_AP_new
+# [22.72289, 20.028719, 24.946384, 16.745039, 12.908516, 11.8969345, 9.798095, 7.095938, 5.650536, 4.5190225]
+# next_10_KA_new
+# [236.10135, 329.7248, 332.27188, 199.36206, 272.22714, 298.9423, 305.8914, 318.07083, 308.18588, 348.57758]
+
+
+# # 30 Previous Days
+# Month_data_for_AP - [0.01991479 0.01993805 0.01995364 0.01997809 0.02000255 0.02002629
+#  0.02005291 0.02006178 0.02008743 0.02010686 0.02014091 0.02016368
+#  0.02018407 0.02021044 0.02021883 0.02023562 0.02025336 0.02026871
+#  0.02028837 0.0202958  0.02032626 0.02033609 0.02035407 0.02037469
+#  0.02039052 0.02040227 0.02041521 0.02043727 0.02043727]
+# Month_data_for_KA - [0.03665662 0.03691806 0.03739247 0.03752262 0.03761887 0.03777604
+#  0.03794039 0.03804259 0.03812519 0.0382155  0.0382617  0.03843002
+#  0.03848112 0.03855506 0.0386266  0.03869898 0.0387822  0.03884477
+#  0.03889597 0.03897461 0.03904281 0.03913072 0.0392105  0.03929904
+#  0.03936245 0.03941074 0.03944223 0.03951815 0.03951815]
+# # Number of new cases
+# Month_data_for_AP - [ 76.  76.  95. 108.  89. 104.  43.  88.  89. 130.  98.  87.  80.  46.
+#   86.  64.  54.  81.  39. 105.  42.  52.  50.  65.  44.  59.  56.  21.
+#    0.]
+# Month_data_for_KA - [638. 728. 701. 659. 606. 672. 369. 673. 676. 689. 687. 586. 659. 363.
+#  585. 550. 642. 578. 471. 542. 309. 370. 554. 554. 464. 343. 464. 298.
+#    0.]
+
+
 
 #--------------------------------------------------------------------
 #                         Layout Helpers
@@ -258,27 +326,39 @@ def generate_metric_row_helper(index, state=None, district=None, output_type=Non
 
     if index == 0:
         #Last One Month
-        data_x = [x for x in range(30, 0, -1)]
+        data_x = [x for x in range(30)]
     elif index == 1:
         #Next 10 days
-        data_x = [x for x in range(11)]
+        data_x = [x for x in range(10)]
 
     if state:
         #GET Data for Data
         print(state, district, output_type)
         if index == 0:
             #Last One Month
-            data_y = [random.randint(0, y) for y in range(30)]
+            if output_type=='NC':
+                name = state + "_30"
+                data_y = new[name]
+            elif output_type=='RC':
+                name = state + "_30"
+                data_y = recover[name]
+
         elif index == 1:
             #Next 10 days
-            data_y = [random.randint(0, y) for y in range(10)]
+            if output_type=='NC':
+                name = state + "_10"
+                data_y = new[name]
+            elif output_type=='RC':
+                name = state + "_10"
+                data_y = recover[name]
+            # data_y = [random.randint(0, y) for y in range(10)]
     else:
         if index == 0:
             #Last One Month
-            data_y = [random.randint(0, y) for y in range(30)]
+            data_y = [random.randint(0, y) for y in range(10)]
         elif index == 1:
             #Next 10 days
-            data_y = [random.randint(0, y) for y in range(10)]
+            data_y = [random.randint(0, y) for y in range(30)]
 
 
     return generate_metric_row(
@@ -460,7 +540,7 @@ def build_tab_2():
                                 options= [ {"label" : i, "value" : i} for i in state_districts_data['states'][0]['districts'] ],
                                 clearable=False,
                                 searchable=True,
-                                value="Anantapur",
+                                value="Chittoor",
                             ),
 
                             html.Br(),
@@ -534,20 +614,64 @@ def build_tab_2():
 def build_tab_3():
     return html.Div(
         children=[
-            drc.NamedSlider(
-                name="Select % of population to vaccinate",
-                id="slider-vac-perc",
-                min=0,
-                max=100,
-                marks={
-                    i: str(i)
-                    for i in range(0, 101, 10)
-                },
-                step=10,
-                value=10,
+            html.Div(
+                children=[
+                    dcc.Graph(
+                        id='vac-graph'
+                    )
+                ]
             ),
-            dcc.Graph(
-                id='vac-graph'
+            html.Div(
+                children=[
+                    drc.NamedSlider(
+                        name="Select % of population to vaccinate",
+                        id="slider-vac-perc",
+                        min=0,
+                        max=90,
+                        marks={
+                            i: str(i)
+                            for i in [0, 10, 30, 50, 90]
+                        },
+                        step=10,
+                        value=10,
+                    ),
+                ],
+            ),
+            html.Div(
+                id="quick-stats",
+                # className="twelve columns",
+                children=[
+                    generate_section_banner("Select a State and District"),
+                    # Choose State
+                    drc.NamedDropdown(
+                        name="Select State",
+                        id="dropdown-select-state",
+                        options=[{"label": state_map[i]["state"], "value": i} for i in state_list],
+                        clearable=False,
+                        searchable=True,
+                        value="AP",
+                    ),
+
+                    drc.NamedDropdown(
+                        name="Select District",
+                        id="dropdown-select-district",
+                        # options=[{"label": state_map[i]["state"], "value": i} for i in state_list],
+                        options= [ {"label" : i, "value" : i} for i in state_districts_data['states'][0]['districts'] ],
+                        clearable=False,
+                        searchable=True,
+                        value="Chittoor",
+                    )
+
+                    # html.Br(),
+
+                    # dcc.RadioItems(
+                    #     id='radio-output-type',
+                    #     options=[
+                    #         {'label': 'New Cases', 'value': 'NC'}
+                    #     ],
+                    #     value='NC'
+                    # )
+                ]
             )
         ]
     )
@@ -695,24 +819,30 @@ def update_graphs(district, output_type, state):
 @app.callback(
     Output('vac-graph', 'figure'),
     Input('slider-vac-perc', 'value'),
-    # State('dropdown-select-state', 'value'),
-    # State('radio-output-type', 'value')
+    Input('dropdown-select-district', 'value'),
+    State('dropdown-select-state', 'value')
 )
-def predict_vacc_effect(perc, state=None, district=None):
-    print(perc)
-    x = [i for i in range(100)]
-    y = [random.randint(0, i) for i in range(100)]
+def predict_vacc_effect(perc, district=None, state=None):
+    print(perc, state, district)
+
+    name = str(district) + "_v" + str(perc)
+    print(name)
+
+    x = [i for i in range(11)]
+    y = vaccinated[name]
     df = pd.DataFrame( {'day' : x, 'cases' : y} )
     graph_title = "Cases in {0}, {1} after vaccinating {2}% of the population".format(district, state, perc)
+    title = f"Cases in {district}, {state} after vaccinating {perc}% of the population."
+    print(perc, state, district, "2")
 
     fig = px.line(
         df,
         x='day',
         y='cases',
-        title=graph_title,
+        title=title,
     )
 
-    fig.update_layout(transition_duration=100)
+    fig.update()
 
     return fig
 
@@ -863,3 +993,7 @@ app.layout = html.Div(
 
 if __name__ == '__main__':
     app.run_server(debug=True, port=8069)
+
+
+
+
