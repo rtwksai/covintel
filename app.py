@@ -61,7 +61,7 @@ app.config["suppress_callback_exceptions"] = True
 #--------------------------------------------------------------------
 
 state_map = {
-    "IN": {"state": "India", "lat": 12.698214530944824, "long": 92.85771179199219, "zoom": 3},
+    "IN": {"state": "India", "lat": 20.5937, "long": 78.9629, "zoom": 3},
     "AN": {"state": "Andaman and Nicobar Islands", "lat": 12.698214530944824, "long": 92.85771179199219, "zoom": 5},
     "AP": {"state": "Andhra Pradesh", "lat": 15.9240905, "long": 80.1863809, "zoom": 5},
     "AR": {"state": "Arunachal Pradesh", "lat": 28.0937702, "long": 94.5921326, "zoom": 5.5},
@@ -101,7 +101,7 @@ state_map = {
 
 state_list = list(state_map.keys())
 
-with open('./assets/states-and-districts.json') as dist_json:
+with open('./data/states-and-districts.json') as dist_json:
     state_districts_data = json.load(dist_json)
 
 
@@ -172,7 +172,7 @@ def build_banner():
                     html.Button(
                         id="learn-more-button", children="LEARN MORE", n_clicks=0
                     ),
-                    html.Img(id="logo", src=app.get_asset_url("dash-logo-new.png")),
+                    html.Img(id="logo", src=app.get_asset_url("chaos.png")),
                 ],
             ),
         ],
@@ -218,42 +218,6 @@ def build_modal():
         ),
     )
 
-def build_left_panel():
-    return html.Div(
-        id="quick-stats",
-        className="column",
-        children=[
-            generate_section_banner("Put a heading here"),
-            # Choose State
-            drc.NamedDropdown(
-                name="Select State",
-                id="dropdown-select-state",
-                options=[{"label": state_map[i]["state"], "value": i} for i in state_list],
-                clearable=False,
-                searchable=True,
-                value="AP",
-            ),
-
-            drc.NamedDropdown(
-                name="Select State",
-                id="dropdown-select-district",
-                # options=[{"label": state_map[i]["state"], "value": i} for i in state_list],
-                options= [ {"label" : i, "value" : i} for i in state_districts_data['states'][0]['districts'] ],
-                clearable=False,
-                searchable=True,
-                value="Anantapur",
-            ),
-
-            dcc.RadioItems(
-                options=[
-                    {'label': 'New Cases', 'value': 'NC'},
-                    {'label': 'Recovered', 'value': 'RC'},
-                    {'label': 'Vaccinated', 'value': 'VC'}
-                ],
-                value='NC'
-            )
-        ]
-    )
 
 def generate_metric_row(id, style, col1, col2):
     if style is None:
@@ -386,103 +350,6 @@ def generate_metric_list_header():
         {"id": "m_header_1", "children": html.Div("Parameter")},
         {"id": "m_header_3", "children": html.Div("Sparkline")}
     )
-
-def build_right_panel():
-    return html.Div(
-        id="status-container",
-        # className="row",
-        children=[
-            # Metrics summary
-                    html.Div(
-                        id="quick-stats",
-                        className="twelve columns",
-                        children=[
-                            generate_section_banner("Put a heading here"),
-                            # Choose State
-                            drc.NamedDropdown(
-                                name="Select State",
-                                id="dropdown-select-state",
-                                options=[{"label": state_map[i]["state"], "value": i} for i in state_list],
-                                clearable=False,
-                                searchable=True,
-                                value="AP",
-                            ),
-
-                            drc.NamedDropdown(
-                                name="Select State",
-                                id="dropdown-select-district",
-                                # options=[{"label": state_map[i]["state"], "value": i} for i in state_list],
-                                options= [ {"label" : i, "value" : i} for i in state_districts_data['states'][0]['districts'] ],
-                                clearable=False,
-                                searchable=True,
-                                value="Anantapur",
-                            ),
-
-                            dcc.RadioItems(
-                                id='radio-output-type',
-                                options=[
-                                    {'label': 'New Cases', 'value': 'NC'},
-                                    {'label': 'Recovered', 'value': 'RC'},
-                                    {'label': 'Vaccinated', 'value': 'VC'}
-                                ],
-                                value='NC'
-                            )
-                        ]
-                    ),
-
-            # html.Div(
-            #     className="row",
-                # children=[
-                    html.Div(
-                        id="ooc-geomap-outer",
-                        className="twelve columns",
-                        children=[
-                            generate_section_banner("Map Spec"),
-                            html.Div(
-                                id="geo-map-loading-outer",
-                                children=[
-                                    dcc.Loading(
-                                        id="loading",
-                                        children=dcc.Graph(
-                                            id="geo-map",
-                                            figure={
-                                                "data": [],
-                                                "layout": dict(
-                                                    plot_bgcolor="#171b26",
-                                                    paper_bgcolor="#171b26",
-                                                ),
-                                            },
-                                        ),
-                                    )
-                                ],
-                            ),
-                        ],
-                    ),
-                    html.Div(
-                        id="metric-summary-session",
-                        className="twelve columns",
-                        children=[
-                            generate_section_banner("CoVID-19 Vaccine metrics Summary"),
-                            html.Div(
-                                id="metric-div",
-                                children=[
-                                    generate_metric_list_header(),
-                                    html.Div(
-                                        id="metric-rows",
-                                        children=[
-                                            generate_metric_row_helper(0),
-                                            generate_metric_row_helper(1),
-                                            # generate_metric_row_helper(2),
-                                        ]
-                                    )
-                                ]
-                            )
-                        ]
-                    ),
-                # ]
-            # )
-        ]
-    )
                 
 def build_tab_1():
     return [
@@ -564,8 +431,105 @@ def build_tab_1():
         )
     ]
 
+
 def build_tab_2():
-    pass
+    return html.Div(
+        id="status-container",
+        # className="row",
+        children=[
+            # Metrics summary
+                    html.Div(
+                        id="quick-stats",
+                        className="twelve columns",
+                        children=[
+                            generate_section_banner("Select a State and District"),
+                            # Choose State
+                            drc.NamedDropdown(
+                                name="Select State",
+                                id="dropdown-select-state",
+                                options=[{"label": state_map[i]["state"], "value": i} for i in state_list],
+                                clearable=False,
+                                searchable=True,
+                                value="AP",
+                            ),
+
+                            drc.NamedDropdown(
+                                name="Select District",
+                                id="dropdown-select-district",
+                                # options=[{"label": state_map[i]["state"], "value": i} for i in state_list],
+                                options= [ {"label" : i, "value" : i} for i in state_districts_data['states'][0]['districts'] ],
+                                clearable=False,
+                                searchable=True,
+                                value="Anantapur",
+                            ),
+
+                            html.Br(),
+
+                            dcc.RadioItems(
+                                id='radio-output-type',
+                                options=[
+                                    {'label': 'New Cases', 'value': 'NC'},
+                                    {'label': 'Immune', 'value': 'RC'}
+                                ],
+                                value='NC'
+                            )
+                        ]
+                    ),
+
+            # html.Div(
+            #     className="row",
+                # children=[
+                    html.Div(
+                        id="ooc-geomap-outer",
+                        className="twelve columns",
+                        children=[
+                            generate_section_banner("Map Spec"),
+                            html.Div(
+                                id="geo-map-loading-outer",
+                                children=[
+                                    dcc.Loading(
+                                        id="loading",
+                                        children=dcc.Graph(
+                                            id="geo-map",
+                                            figure={
+                                                "data": [],
+                                                "layout": dict(
+                                                    plot_bgcolor="#171b26",
+                                                    paper_bgcolor="#171b26",
+                                                ),
+                                            },
+                                        ),
+                                    )
+                                ],
+                            ),
+                        ],
+                    ),
+                    html.Div(
+                        id="metric-summary-session",
+                        className="twelve columns",
+                        children=[
+                            generate_section_banner("CoVID-19 Vaccine metrics Summary"),
+                            html.Div(
+                                id="metric-div",
+                                children=[
+                                    generate_metric_list_header(),
+                                    html.Div(
+                                        id="metric-rows",
+                                        children=[
+                                            generate_metric_row_helper(0),
+                                            generate_metric_row_helper(1),
+                                            # generate_metric_row_helper(2),
+                                        ]
+                                    )
+                                ]
+                            )
+                        ]
+                    ),
+                # ]
+            # )
+        ]
+    )
+
 
 def build_tab_3():
     return html.Div(
@@ -607,7 +571,7 @@ def build_tabs():
                     ),
                     dcc.Tab(
                         id="Control-chart-tab",
-                        label="Control Charts Dashboard",
+                        label="Charts Dashboard",
                         value="tab2",
                         className="custom-tab",
                         selected_className="custom-tab--selected",
@@ -735,16 +699,17 @@ def update_graphs(district, output_type, state):
     # State('radio-output-type', 'value')
 )
 def predict_vacc_effect(perc, state=None, district=None):
-    print('LOL Triggered')
+    print(perc)
     x = [i for i in range(100)]
     y = [random.randint(0, i) for i in range(100)]
     df = pd.DataFrame( {'day' : x, 'cases' : y} )
+    graph_title = "Cases in {0}, {1} after vaccinating {2}% of the population".format(district, state, perc)
 
     fig = px.line(
         df,
         x='day',
         y='cases',
-        title=f"Cases in {district}, {state} after vaccinating {perc}% of the population",
+        title=graph_title,
     )
 
     fig.update_layout(transition_duration=100)
@@ -834,7 +799,7 @@ def render_tab_content(tab_switch):
                 #     id="graphs-container",
                 #     children=[build_right_panel()],
                 # )
-                build_right_panel()
+                build_tab_2()
             ]
         )
     else:
