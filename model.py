@@ -395,7 +395,7 @@ def calculate_herd_immunity(cases_threshold, days_threshold, State, District, to
 
 District =  'Chittoor'
 State = 'Andhra Pradesh'
-today_date = '1-5-2021'
+today_date = pd.to_datetime('today').normalize()
 days = 10
 
 print(calculate_herd_immunity(15, 10, State, District, today_date))    
