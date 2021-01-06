@@ -447,6 +447,12 @@ future = get_tomorrow_new_all_districts()
 # In[31]:
 
 path = "./data/state_data/"
+
+#Prediction for India
+filename = "prediction_IN.csv"
+future.to_csv(os.path.join(path,filename), index=False)
+
+#Prediction for other states
 for state in state_list:
     filename = "prediction_"+state_map[state]+".csv"
     state_df = future.groupby('State').get_group(state)
