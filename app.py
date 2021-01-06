@@ -699,7 +699,7 @@ def generate_map(geo_map_json = india_gj, geo_dataframe = india_data, state_sele
                                 locations=geo_dataframe.loc[:, 'District'],
                                 z=geo_dataframe.loc[:, 'Active Cases'], 
                                 zmin=0,
-                                zmax=1000,
+                                zmax=500,
                                 colorscale='YlOrRd',
                                 colorbar=dict(title='Cases',
                                             len=0.8,
