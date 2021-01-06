@@ -435,10 +435,11 @@ def get_tomorrow_new_all_districts():
     x_tom['State'] = le_state.transform(x_tom['State'])
     x_tom['District'] = le_district.transform(x_tom['District'])
     tom_pred = reg_NewCases.predict(x_tom)
-
+    tom_pred = [x if x > 0 else 0 for x in tom_pred]
     future = main_df.loc[main_df['Date']==pd.to_datetime('today').normalize(),['State','District']]
     future['Date'] = tommorow
     future['Active Cases'] = tom_pred
+    future['Active Cases'] = future['Active Cases'].round()
     return future
                 
 future = get_tomorrow_new_all_districts()
