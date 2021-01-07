@@ -24,6 +24,13 @@ $ pipenv install
 - Copy and Paste the `config.json.example` file and rename it as `config.json`
 - You then need to create an account on [mapbox](http://mapbox.com/) and paste your public access token in the field `mapbox-token`
 
+To run the model to generate the CSVs, run
+```
+$ pipenv run python3 model.py
+```
+Running it once a day will suffice.
+
+To run the application, run
 ```
 $ pipenv run python3 app.py
 ```
