@@ -10,7 +10,7 @@
 
 ## Installation
 ```
-$ git clone git@github.com:DaKeiser/ey-hackathon.git
+$ git clone git@github.com:DaKeiser/chaos.git
 ```
 
 ## Setup
