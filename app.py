@@ -67,7 +67,7 @@ state_map = {
     "AR": {"state": "Arunachal Pradesh", "lat": 28.0937702, "long": 94.5921326, "zoom": 5.5},
     "AS": {"state": "Assam", "lat": 26.4073841, "long": 93.2551303, "zoom": 5},
     "BR": {"state": "Bihar", "lat": 25.6440845, "long": 85.906508, "zoom": 5.3},
-    "CH": {"state": "Chandigarh", "lat": 30.7334421, "long": 76.7797143, "zoom": 10},
+    "CG": {"state": "Chandigarh", "lat": 30.7334421, "long": 76.7797143, "zoom": 10},
     "CT": {"state": "Chhattisgarh", "lat": 21.295132, "long": 81.828232, "zoom": 5.1},
     "DN": {"state": "Dadra and Nagar Haveli and Daman and Diu", "lat": 20.7179857, "long": 70.9323992, "zoom": 5.5},
     "DL": {"state": "Delhi", "lat": 28.6517178, "long": 77.2219388, "zoom": 8},
