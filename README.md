@@ -6,7 +6,7 @@
   <br>
 </h1>
 
-<h3 align="center">An AI solution to track the Covid Vaccine Efficacy for <a href="https://www.ey.com/en_in/techathon" target="_blank">EY Techathon</a></h3>
+<h3 align="center">An AI solution to track the CoVID Vaccine Efficacy </h3>
 
 ## Installation
 ```
