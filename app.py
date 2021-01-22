@@ -749,7 +749,7 @@ def calculate_herd_immunity(threshold, days):
 
     # Add function and hardcode data here
 
-    result = f"Number of cases less than {threshold} for {days} days is ANSWER"
+    result = f"Number of cases less than {threshold} for {days} days is ANSWER% progress towards herd immunity"
     return result
 
 
