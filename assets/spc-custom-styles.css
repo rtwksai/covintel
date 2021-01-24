@@ -143,7 +143,7 @@ body {
   cursor: pointer;
 }
 
-#Specs-tab.custom-tab, #Control-chart-tab.custom-tab, #Statistics-tab.custom-tab {
+#Specs-tab.custom-tab, #Control-chart-tab.custom-tab, #Statistics-tab.custom-tab, #Effectiveness-tab.custom-tab {
   background-color: #161a28;
   letter-spacing: 1px;
   color: inherit;
@@ -157,7 +157,7 @@ body {
   height: 18px;
 }
 
-#Specs-tab.custom-tab--selected, #Control-chart-tab.custom-tab--selected, #Statistics-tab.custom-tab--selected{
+#Specs-tab.custom-tab--selected, #Control-chart-tab.custom-tab--selected, #Statistics-tab.custom-tab--selected, #Effectiveness-tab.custom-tab--selected {
   border-bottom: #91dfd2 solid 4px !important;
 }
 
@@ -166,12 +166,17 @@ body {
 }
 
 #Control-chart-tab.custom-tab {
-  margin-left: 3px;
+  /* margin-left: 3px; */
   margin-right: 3px;
 }
 
 #Statistics-tab.custom-tab{
-  margin-left: 3px;
+  margin-right: 3px;
+}
+
+#Effectiveness-tab.custom-tab {
+  /* margin-left: 3px;
+  margin-right: 3px; */
 }
 
 .section-banner {
@@ -261,7 +266,7 @@ body {
 /* Tab1 content
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
-#set-specs-intro-container {
+#set-specs-intro-container, #herd-immunity-results {
   font-weight: bold;
   margin: 8rem 5rem 1rem;
   font-size: 1.6rem;
@@ -611,7 +616,7 @@ body {
     height: auto;
   }
 
-  #set-specs-intro-container {
+  #set-specs-intro-container, #herd-immunity-results {
     margin: 4rem 2rem 0rem 2rem;
     font-size: inherit;
   }
