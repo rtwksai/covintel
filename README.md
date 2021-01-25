@@ -17,7 +17,7 @@ $ git clone git@github.com:DaKeiser/chaos.git
 To run this project, follow these steps
 
 ```
-$ cd ey-hackathon
+$ cd chaos
 $ pipenv install
 ```
 
