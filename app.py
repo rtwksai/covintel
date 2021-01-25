@@ -328,8 +328,8 @@ def predict_vacc_effect(perc, district=None, state=None):
     df = pd.DataFrame( {'day' : x, 'cases' : y} )
     # graph_title = "Cases in {0}, {1} after vaccinating {2}% of the population".format(district, state, perc)
 
-    # title = f"Cases in {district}, {state} after vaccinating {perc}% of the population."
-    title="Cases in Chittoor, AP after vaccinating 3% of the population, using CoVaxin."
+    title = f"Cases in {district}, {state} after vaccinating {perc}% of the population, using CoVaxin."
+    # title="Cases in Chittoor, AP after vaccinating 3% of the population, using CoVaxin."
     # print(perc, state, district, "2")
 
     fig = px.line(
@@ -414,7 +414,7 @@ app.layout = html.Div(
 #--------------------------------------------------------------------
 
 if __name__ == '__main__':
-    app.run_server(debug=True, port=8069)
+    app.run_server(debug=True, port=8080, host='0.0.0.0')
 
 
 

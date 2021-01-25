@@ -103,7 +103,7 @@ suffix_sparkline_graph = "_sparkline_graph"
 def generate_metric_row_helper(index, state=None, district=None, output_type=None):
     item = params[index]
 
-    print('INDEX' + str(index) + str(output_type))
+    #print('INDEX' + str(index) + str(output_type))
 
     div_id = item + suffix_row
     button_id = item + suffix_button_id
@@ -152,9 +152,9 @@ def generate_metric_row_helper(index, state=None, district=None, output_type=Non
             data_y = [random.randint(0, y) for y in range(40)]
         else:
             data_y = [random.randint(0, y) for y in range(40)]
-    print('LOL')
-    print(data_y)
-    print('LOL2')
+    #print('LOL')
+    #print(data_y)
+    #print('LOL2')
 
     return generate_metric_row(
         div_id,
