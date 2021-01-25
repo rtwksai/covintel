@@ -209,7 +209,7 @@ def build_tabs():
 #                         Map Generator
 #--------------------------------------------------------------------
 
-def generate_map(geo_map_json = india_gj, geo_dataframe = india_data, state_select = None):
+def generate_map(geo_map_json = india_gj, geo_dataframe = india_data, state_select = None, scal="Viridis"):
     
     with open(geo_map_json, 'r') as fp:
         geo_map = json.load(fp)
@@ -220,7 +220,7 @@ def generate_map(geo_map_json = india_gj, geo_dataframe = india_data, state_sele
                                 z=geo_dataframe.loc[:, 'Active Cases'], 
                                 zmin=0,
                                 zmax=500,
-                                colorscale='YlOrRd',
+                                colorscale=scal,
                                 colorbar=dict(title='Cases',
                                             len=0.8,
                                             lenmode='fraction'))
@@ -359,12 +359,18 @@ def render_tab_content(tab_switch):
 
 @app.callback(
     Output("geo-map", "figure"),
-    [Input("dropdown-select-state", "value")]
+    [Input("dropdown-select-state", "value"), Input("app-tabs", "value")]
 )
-def update_geo_map(state_select):
+def update_geo_map(state_select, tab_switch):
     state_agg_data = data_dict[state_select]
     map_gj = gj_dict[state_select]
-    return generate_map(map_gj, state_agg_data, state_select)
+    if tab_switch == "tab2":
+        scal="YlOrRd"
+    elif tab_switch == "tab3":
+        scal="Sunset"
+    else:
+        scal="Sunset"
+    return generate_map(map_gj, state_agg_data, state_select, scal)
 
 #----------------------
 #      Tab-3
