@@ -70,16 +70,22 @@ def build_tab_3():
                         html.Div(
                             id="metric-div",
                             children=[
-                                html.P(
-                                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam consequat tellus ac magna ullamcorper consequat a eget tellus. Maecenas eleifend vel velit non rhoncus. Ut mollis nec justo quis "
-                                    "pharetra. Donec a bibendum lectus, sed tincidunt urna. Vivamus sem odio, pharetra vel nibh in, gravida finibus nisl. Vestibulum tincidunt et odio non eleifend. Ut non purus rhoncus, convallis risus eu,"
-                                    " aliquet magna. Duis varius massa eget massa ultricies venenatis lobortis vel velit. Vivamus sollicitudin ultrices velit sed tristique. Sed luctus lectus at"
-                                    "neque feugiat suscipit in id odio. Aenean commodo purus eu vestibulum lacinia. Morbi dignissim aliquet lacus eu ultricies. Cras nec rutrum orci. Nam sed massa"
-                                    " eu metus lobortis vulputate fermentum at diam. Aliquam tincidunt dolor elementum est tempus feugiat. Curabitur non nunc velit."
-                                    "CoVaxin is-"
-                                ),
                                 html.H1(
-                                    "95% Effective!!!!!!!!!!!!"
+                                    "CoVaxin is 95% Effective*."
+                                ),
+                                html.H3(
+                                    "Vaccine Rollout Phase 1 in progress"
+                                ),
+                                html.P(
+                                    # "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam consequat tellus ac magna ullamcorper consequat a eget tellus. Maecenas eleifend vel velit non rhoncus. Ut mollis nec justo quis "
+                                    # "pharetra. Donec a bibendum lectus, sed tincidunt urna. Vivamus sem odio, pharetra vel nibh in, gravida finibus nisl. Vestibulum tincidunt et odio non eleifend. Ut non purus rhoncus, convallis risus eu,"
+                                    # " aliquet magna. Duis varius massa eget massa ultricies venenatis lobortis vel velit. Vivamus sollicitudin ultrices velit sed tristique. Sed luctus lectus at"
+                                    # "neque feugiat suscipit in id odio. Aenean commodo purus eu vestibulum lacinia. Morbi dignissim aliquet lacus eu ultricies. Cras nec rutrum orci. Nam sed massa"
+                                    # " eu metus lobortis vulputate fermentum at diam. Aliquam tincidunt dolor elementum est tempus feugiat. Curabitur non nunc velit."
+                                    "India will start off by vaccinating around three crore of its front-line workers. This includes health workers, safai karmacharis, the Army and disaster management volunteers."
+                                ),
+                                html.H5(
+                                    "Today's Vaccination Count : 100/Center"
                                 )
                             ]
                         )

@@ -38,13 +38,13 @@ def build_tab_4():
                         name="Select % of population to vaccinate",
                         id="slider-vac-perc",
                         min=0,
-                        max=90,
+                        max=15,
                         marks={
                             i: str(i)
-                            for i in [0, 10, 30, 50, 90]
+                            for i in [0, 1, 3, 5, 9]
                         },
-                        step=10,
-                        value=10,
+                        step=1,
+                        value=1,
                     ),
                 ],
             ),

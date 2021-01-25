@@ -79,15 +79,15 @@ def get_state_districts_data():
 # Percentage Population Vaccinated
 vaccinated = {
     'Bengaluru (Bangalore) Urban_v0' : [403, 433, 417, 330, 310, 265, 289, 340, 316, 317, 344],
-    'Bengaluru (Bangalore) Urban_v10' : [403, 433, 417, 330, 310, 254, 279, 324, 302, 313, 323],
-    'Bengaluru (Bangalore) Urban_v30' : [329, 405, 348, 310, 263, 215, 266, 285, 263, 273, 284],
-    'Bengaluru (Bangalore) Urban_v50' : [63, 105, 72, 77, 80, 69, 75, 102, 66, 63, 68],
-    'Bengaluru (Bangalore) Urban_v90' : [0, 31, 7, 16, 38, 21, 26, 48, 12, 5, 4],
+    'Bengaluru (Bangalore) Urban_v1' : [403, 433, 417, 330, 310, 254, 279, 324, 302, 313, 323],
+    'Bengaluru (Bangalore) Urban_v3' : [329, 405, 348, 310, 263, 215, 266, 285, 263, 273, 284],
+    'Bengaluru (Bangalore) Urban_v5' : [63, 105, 72, 77, 80, 69, 75, 102, 66, 63, 68],
+    'Bengaluru (Bangalore) Urban_v9' : [0, 31, 7, 16, 38, 21, 26, 48, 12, 5, 4],
     'Chittoor_v0' : [50, 46, 53, 44, 30, 27, 20, 22, 26, 24, 23],
-    'Chittoor_v10' : [34, 35, 36, 32, 22, 22, 13, 19, 21, 19, 16],
-    'Chittoor_v30' : [34, 35, 36, 32, 22, 22, 13, 16, 18, 19, 16],
-    'Chittoor_v50' : [8, 9, 11, 7, 6, 4, 5, 3, 3, 2, 3],
-    'Chittoor_v90' : [2, 1, 2, 0, 1, 0, 2, 2, 0, 0, 0]
+    'Chittoor_v1' : [34, 35, 36, 32, 22, 22, 13, 19, 21, 19, 16],
+    'Chittoor_v3' : [34, 35, 36, 32, 22, 22, 13, 16, 18, 19, 16],
+    'Chittoor_v5' : [8, 9, 11, 7, 6, 4, 5, 3, 3, 2, 3],
+    'Chittoor_v9' : [2, 1, 2, 0, 1, 0, 2, 2, 0, 0, 0]
 }
 
 # Next 10 day recover / new

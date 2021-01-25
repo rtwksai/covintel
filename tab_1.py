@@ -27,11 +27,14 @@ def build_tab_1():
             children=[
                 html.B('Definition of Herd Immunity'),
                 html.P(
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam consequat tellus ac magna ullamcorper consequat a eget tellus. Maecenas eleifend vel velit non rhoncus. Ut mollis nec justo quis "
-                    "pharetra. Donec a bibendum lectus, sed tincidunt urna. Vivamus sem odio, pharetra vel nibh in, gravida finibus nisl. Vestibulum tincidunt et odio non eleifend. Ut non purus rhoncus, convallis risus eu,"
-                    " aliquet magna. Duis varius massa eget massa ultricies venenatis lobortis vel velit. Vivamus sollicitudin ultrices velit sed tristique. Sed luctus lectus at"
-                    "neque feugiat suscipit in id odio. Aenean commodo purus eu vestibulum lacinia. Morbi dignissim aliquet lacus eu ultricies. Cras nec rutrum orci. Nam sed massa"
-                    " eu metus lobortis vulputate fermentum at diam. Aliquam tincidunt dolor elementum est tempus feugiat. Curabitur non nunc velit."
+                    # "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam consequat tellus ac magna ullamcorper consequat a eget tellus. Maecenas eleifend vel velit non rhoncus. Ut mollis nec justo quis "
+                    # "pharetra. Donec a bibendum lectus, sed tincidunt urna. Vivamus sem odio, pharetra vel nibh in, gravida finibus nisl. Vestibulum tincidunt et odio non eleifend. Ut non purus rhoncus, convallis risus eu,"
+                    # " aliquet magna. Duis varius massa eget massa ultricies venenatis lobortis vel velit. Vivamus sollicitudin ultrices velit sed tristique. Sed luctus lectus at"
+                    # "neque feugiat suscipit in id odio. Aenean commodo purus eu vestibulum lacinia. Morbi dignissim aliquet lacus eu ultricies. Cras nec rutrum orci. Nam sed massa"
+                    # " eu metus lobortis vulputate fermentum at diam. Aliquam tincidunt dolor elementum est tempus feugiat. Curabitur non nunc velit."
+                    "Resistance to the spread of an infectious disease within a population that is based on pre-existing immunity of a high proportion of individuals as a result of previous infection or vaccination."
+                    "Though herd immunity is defined as no new cases for a threshold n days, this seems to be quite impossible in the current scenario. Therefore, our solution allows users to set their own definition of herd immunity.  The definition includes, no. of days - n, threshold no. of cases - c. and the herd immunity % is calculated by, No. of days out of n for which the predicted new cases are less then c/n * 100"
+
                 )
             ],
             style={'margin': '5rem 10rem'}

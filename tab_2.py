@@ -217,7 +217,7 @@ def generate_metric_row_helper(index, state=None, district=None, output_type=Non
 
 def generate_metric_row(id, style, col1, col2):
     if style is None:
-        style = {"height": "25rem", "width": "100%"}
+        style = {"height": "15rem", "width": "100%"}
 
     return html.Div(
         id=id,
