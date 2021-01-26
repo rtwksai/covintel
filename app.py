@@ -270,7 +270,7 @@ def generate_map(geo_map_json = india_gj, geo_dataframe = india_data, state_sele
 def calculate_herd_immunity(threshold, days, district, state):
     # Add function and hardcode data here
 
-    result = f"For {district}, {state}. Number of cases less than {threshold} for {days} days is ANSWER% progress towards herd immunity"
+    result = f"For {district}, {state}. Number of cases less than {threshold} for {days} days is 20% progress towards herd immunity"
     return result
 
 
@@ -328,7 +328,7 @@ def predict_vacc_effect(perc, district=None, state=None):
     df = pd.DataFrame( {'day' : x, 'cases' : y} )
     # graph_title = "Cases in {0}, {1} after vaccinating {2}% of the population".format(district, state, perc)
 
-    title = f"Cases in {district}, {state} after vaccinating {perc}% of the population, using CoVaxin."
+    title = f"Cases in {district}, {state} after vaccinating {perc}% of the population, using COVAXIN."
     # title="Cases in Chittoor, AP after vaccinating 3% of the population, using CoVaxin."
     # print(perc, state, district, "2")
 
