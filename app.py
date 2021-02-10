@@ -85,10 +85,15 @@ for state in state_list:
     state_data = pd.read_csv(csv_path)
     data_dict[state] = state_data
 
+in_spec = pd.read_csv("./data/state_data/prediction_IN.csv")
+in_data =  in_spec.groupby("State", as_index=False)['Active Cases'].agg({"Active Cases": "sum"})
+in_data["District"] = in_data["State"]
+data_dict["IN"] = in_data
+
 # Load GeoJsons
 
 # Change this to state and change the entire logic later
-india_gj = "./maps/india_districts.geojson"
+india_gj = "./maps/india_states.geojson"
 
 gj_dict = {}
 for state in state_list:
