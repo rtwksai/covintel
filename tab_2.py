@@ -45,7 +45,8 @@ def build_tab_2():
                         id="ooc-geomap-outer",
                         className="twelve columns",
                         children=[
-                            generate_section_banner("Map Spec"),
+                            # generate_section_banner("Map Spec"),
+                            html.H3('Recorded & Predicted Daily New Cases'),
                             html.Div(
                                 id="geo-map-loading-outer",
                                 children=[
@@ -56,8 +57,8 @@ def build_tab_2():
                                             figure={
                                                 "data": [],
                                                 "layout": dict(
-                                                    plot_bgcolor="#171b26",
-                                                    paper_bgcolor="#171b26",
+                                                    plot_bgcolor="#ffffff",
+                                                    paper_bgcolor="#ffffff",
                                                 ),
                                             },
                                         ),
@@ -65,13 +66,14 @@ def build_tab_2():
                                 ],
                             ),
                         ],
-                        style={'width': '100%', 'height': 'inherit', 'display': 'inline-block', 'border-left': '0'}
+                        style={'width': '50%', 'height': 'inherit', 'display': 'inline-block', 'border-left': '0'}
                     ),
                     html.Div(
                         id="metric-summary-session",
                         className="twelve columns",
                         children=[
-                            generate_section_banner("CoVID-19 Vaccine metrics Summary"),
+                            # generate_section_banner("CoVID-19 Vaccine metrics Summary"),
+                            # html.H3('')
                             html.Div(
                                 id="metric-div",
                                 children=[
@@ -87,15 +89,15 @@ def build_tab_2():
                                 ]
                             )
                         ],
-                        style={'width': '100%', 'display': 'inline-block'}
+                        style={'width': '50%', 'display': 'inline-block'}
                     ),
                 ],
-                style={'width': '100%', 'display': 'inline-block', 'padding': '1.5rem 10rem'}
+                style={'width': '100%', 'display': 'inline-block', 'padding': '1.5rem 5rem'}
             )
         ]
     )
 
-params = ['Last one Month', 'Next 10 days']
+params = ['Daily New Cases', 'Daily Recovered Cases']
 suffix_row = "_row"
 suffix_button_id = "_button"
 suffix_sparkline_graph = "_sparkline_graph"
@@ -109,39 +111,41 @@ def generate_metric_row_helper(index, state=None, district=None, output_type=Non
     button_id = item + suffix_button_id
     sparkline_graph_id = item + suffix_sparkline_graph
 
-    data_y = ['NOT ASSIGNED']
+    data_y_1 = ['NOT ASSIGNED']
+    data_y_2 = ['NOT ASSIGNED']
 
-    if index == 0:
-        #Last One Month
-        data_x = [x for x in range(40)]
-    elif index == 1:
-        #Next 10 days
-        data_x = [x for x in range(10)]
+
+    data_x_1 = [x for x in range(31)]
+    data_x_2 = [c for c in range(30, 40)]
 
     if state:
         #GET Data for Data
         # print(state, district, output_type)
-        if index == 0:
+        # if index == 0:
             #Last One Month
-            if output_type=='NC':
-                # name = state + "_30"
-                combined_data = new[state + "_30"] + new[state + "_10"]
-                data_y = combined_data
-            elif output_type=='RC':
-                combined_data = recover[state + "_30"] + recover[state + "_10"]
-                data_y = combined_data
+        if output_type=='NC':
+            # name = state + "_30"
+            combined_data = new[state + "_30"] + new[state + "_10"]
+            data_y_1 = combined_data[:31]
+            data_y_2 = combined_data[30:40]
+            # data_y = combined_data
+        elif output_type=='RC':
+            combined_data = recover[state + "_30"] + recover[state + "_10"]
+            # data_y = combined_data
+            data_y_1 = combined_data[:31]
+            data_y_2 = combined_data[30:40]
 
-        elif index == 1:
-            #Next 10 days
-            if output_type=='NC':
-                name = state + "_10"
-                data_y = new[name]
-            elif output_type=='RC':
-                name = state + "_10"
-                data_y = recover[name]
-            # data_y = [random.randint(0, y) for y in range(10)]
-        else:
-            data_y = [random.randint(0, y) for y in range(40)]
+        # elif index == 1:
+        #     #Next 10 days
+        #     if output_type=='NC':
+        #         name = state + "_10"
+        #         data_y = new[name]
+        #     elif output_type=='RC':
+        #         name = state + "_10"
+        #         data_y = recover[name]
+        #     # data_y = [random.randint(0, y) for y in range(10)]
+        # else:
+        #     data_y = [random.randint(0, y) for y in range(40)]
             
     else:
         if index == 0:
@@ -184,11 +188,18 @@ def generate_metric_row_helper(index, state=None, district=None, output_type=Non
                     {
                         "data": [
                             {
-                                "x": data_x,
-                                "y": data_y,
+                                "x": data_x_1,
+                                "y": data_y_1,
                                 "mode": "lines+markers",
                                 "name": item,
-                                "line": {"color": "#f4d44d"},
+                                "line": {"color": "#ff9933"},
+                            },
+                            {
+                                "x": data_x_2,
+                                "y": data_y_2,
+                                "mode": "lines+markers",
+                                "name": item + "_",
+                                "line": {"color": "#4df4ea"},
                             }
                         ],
                         "layout": {
@@ -208,6 +219,7 @@ def generate_metric_row_helper(index, state=None, district=None, output_type=Non
                             ),
                             "paper_bgcolor": "rgba(0,0,0,0)",
                             "plot_bgcolor": "rgba(0,0,0,0)",
+                            "showlegend": False
                         },
                     }
                 ),
@@ -243,6 +255,6 @@ def generate_metric_list_header():
     return generate_metric_row(
         "metric_header",
         {"height": "3rem", "margin": "1rem 0", "textAlign": "center"},
-        {"id": "m_header_1", "children": html.Div("Duration")},
+        {"id": "m_header_1", "children": html.Div("Cases")},
         {"id": "m_header_3", "children": html.Div("Trends")}
     )

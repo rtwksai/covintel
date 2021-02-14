@@ -305,10 +305,10 @@ def dropdown_district(state_name):
 )
 def update_graphs(district, state):
 
-    output_type = 'NC'
+    # output_type = 'NC'
     children = [
-        generate_metric_row_helper(0, state, district, output_type),
-        generate_metric_row_helper(1, state, district, output_type)
+        generate_metric_row_helper(0, state, district, output_type='NC'),
+        generate_metric_row_helper(1, state, district, output_type='RC')
     ]
     return children
 
@@ -318,11 +318,82 @@ def update_graphs(district, state):
 #----------------------
 @app.callback(
     Output('vac-graph', 'figure'),
+    # Input('slider-vac-perc', 'value'),
+    Input('dropdown-select-district', 'value'),
+    State('dropdown-select-state', 'value')
+)
+def predict_vacc_effect(district=None, state=None):
+    # print(perc, state, district)
+    perc=3
+    name = str(district) + "_v" + str(perc)
+    # print(name)
+
+    x = [i for i in range(11)]
+    y = vaccinated[name]
+    df = pd.DataFrame( {'day' : x, 'cases' : y} )
+    # graph_title = "Cases in {0}, {1} after vaccinating {2}% of the population".format(district, state, perc)
+
+    title = f"Cases in {district}, {state} after vaccinating {perc}% of the population, using COVAXIN."
+    # title="Cases in Chittoor, AP after vaccinating 3% of the population, using CoVaxin."
+    # print(perc, state, district, "2")
+
+    # fig = px.line(
+    #     df,
+    #     x='day',
+    #     y='cases',
+    #     title=title,
+    # )
+
+    # fig.update()
+
+    fig = dict(
+        data=[
+            dict(
+                x=[4,5,6,7,8,9,10,11,12,13],
+                y=[8, 9, 11, 7, 6, 4, 5, 3, 3, 2, 3],
+                name='Predicted',
+                marker=dict(
+                    color='#FF9933'
+                )
+            ),
+            dict(
+                x=[4,5,6,7,8,9,10,11,12,13],
+                y=[5, 25, 16, 14, 8, 24, 13, 12, 11, 7],
+                name='Actual',
+                marker=dict(
+                    color='#138808'
+                )
+            )
+        ],
+        layout=dict(
+            # title=title,fherd
+            showlegend=True,
+            legend=dict(
+                x=0,
+                y=1.0
+            ),
+            margin=dict(l=40, r=0, t=40, b=30),
+
+            xaxis=dict(
+                title='Last 10 days'
+            ),
+            yaxis=dict(
+                title='Number of new cases'
+            ),
+            paper_bgcolor="#EEEEEE",
+            plot_bgcolor="#EEEEEE"
+        )
+    )
+
+    return fig
+
+@app.callback(
+    Output('vac-graph-herd', 'figure'),
     Input('slider-vac-perc', 'value'),
     Input('dropdown-select-district', 'value'),
     State('dropdown-select-state', 'value')
 )
-def predict_vacc_effect(perc, district=None, state=None):
+def predict_vacc_effect_herd(perc, district=None, state=None):
     # print(perc, state, district)
 
     name = str(district) + "_v" + str(perc)
@@ -347,6 +418,8 @@ def predict_vacc_effect(perc, district=None, state=None):
     fig.update()
 
     return fig
+
+
 
 @app.callback(
     Output("app-content", "children"),
@@ -425,7 +498,7 @@ app.layout = html.Div(
 #--------------------------------------------------------------------
 
 if __name__ == '__main__':
-    app.run_server(debug=True, port=8080, host='0.0.0.0')
+    app.run_server(debug=True, port=8000, host='0.0.0.0')
 
 
 

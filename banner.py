@@ -43,23 +43,29 @@ def build_banner():
         className="banner",
         children=[
             html.Div(
-                id="banner-text",
                 children=[
-                    html.H5("CoVID-19 Vaccine Efficacy"),
-                    html.H6("Vaccine efficacy and herd immunity predictor"),
-                ],
-                style={'width': '50%', 'display': 'inline-block'}
-            ),
-            html.Div(
-                id="banner-logo",
-                children=[
-                    html.Button(
-                        id="learn-more-button", children="LEARN MORE", n_clicks=0
+                    html.Div(
+                        id="banner-text",
+                        children=[
+                            html.H5("Monitoring CoVID-19 Vaccine campaign"),
+                            # html.H6("Vaccine efficacy and herd immunity predictor"),
+                            # html.H2('CovIntel', style={'font-family' : "'Raleway', sans-serif", 'font-weight' : '900', 'margin-bottom' : '0'})
+                        ],
+                        style={'width': '50%', 'display': 'inline-block'}
                     ),
-                    html.Img(id="logo", src=""),
-                    html.Img(src='data:image/png;base64,{}'.format(logo_base64)),
-                ],
-                style={'width': '50%', 'display': 'inline-block', 'text-align': 'right'}
+                    html.Div(
+                        id="banner-logo",
+                        children=[
+                            html.Button(
+                                id="learn-more-button", children="LEARN MORE", n_clicks=0, style={'display' : 'none'}
+                            ),
+                            # html.Img(id="logo", src=""),
+                            # html.Img(src='data:image/png;base64,{}'.format(logo_base64), style={'margin-bottom' : '0.5rem'}),
+                            html.H2('CovIntel', style={'font-family' : "'Raleway', sans-serif", 'font-weight' : '900', 'margin-bottom' : '0'})
+                        ],
+                        style={'width': '50%', 'display': 'inline-block', 'text-align': 'right'}
+                    )
+                ]
             ),
             html.Div(
                 id="banner-select-location",
@@ -67,10 +73,13 @@ def build_banner():
                 children=[
 
                         # generate_section_banner(),
-                        html.Div(
-                            className='section-banner',
-                            children="Select a State, District & Vaccine",
-                            style={'text-align': 'center'}
+                        # html.Div(
+                        #     className='section-banner',
+                        #     children="Select a State, District & Vaccine",
+                        #     style={'text-align': 'center'}
+                        # ),
+                        html.Hr(
+                            style={'margin-top':'0.2rem', 'margin-bottom':'0.5rem'}
                         ),
                         # Choose State
                         html.Div(

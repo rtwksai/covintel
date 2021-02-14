@@ -40,7 +40,8 @@ def build_tab_3():
                     id="ooc-geomap-outer",
                     className="twelve columns",
                     children=[
-                        generate_section_banner("Map Spec"),
+                        # generate_section_banner("Map Spec"),
+                        html.H3('Vaccine Distribution Statistics'),
                         html.Div(
                             id="geo-map-loading-outer",
                             children=[
@@ -66,14 +67,15 @@ def build_tab_3():
                     id="vaccine-info",
                     className="twelve columns",
                     children=[
-                        generate_section_banner("CoVID-19 Vaccine Distribution Summary"),
+                        # generate_section_banner("CoVID-19 Vaccine Distribution Summary"),
+                        html.H3('Vaccine Distribution Details'),
                         html.Div(
                             id="metric-div",
                             children=[
-                                html.H1(
-                                    "CoVaxin is 95% Effective*."
+                                html.H2(
+                                    "CoVaxin is highly Effective*."
                                 ),
-                                html.H3(
+                                html.H4(
                                     "Vaccine Rollout Phase 1 in progress"
                                 ),
                                 html.P(
@@ -85,27 +87,28 @@ def build_tab_3():
                                     "India will start off by vaccinating around three crore of its front-line workers. This includes health workers, safai karmacharis, the Army and disaster management volunteers."
                                 ),
                                 html.H5(
-                                    "Today's Vaccination Count : 100/Center"
-                                )
+                                    "Number of Centers providing vaccination : 196"
+                                ),
+                                html.H6("*All this data has been fetched from CoWIN API.")
                             ]
                         )
                     ],
                     style={'width': '30%', 'display': 'inline-block'}
                 ),
-                html.Div(
-                    children=[
-                        html.B(
-                            "To get updates over SMS for vaccine updates in your area. Click the button below."
-                        ),
-                        html.Br(),
-                        html.Button(
-                            "Click to Subscribe",
-                            id="subscribe-button",
-                            style={'margin-top': '1.5rem', 'background-color': 'red', 'color': 'white'}
-                        )
-                    ],
-                    style={'width': '100%', 'display': 'inline-block', 'padding-top': '5rem'}
-                )
+                # html.Div(
+                #     children=[
+                #         html.B(
+                #             "To get updates over SMS for vaccine updates in your area. Click the button below."
+                #         ),
+                #         html.Br(),
+                #         html.Button(
+                #             "Click to Subscribe",
+                #             id="subscribe-button",
+                #             style={'margin-top': '1.5rem', 'background-color': 'red', 'color': 'white'}
+                #         )
+                #     ],
+                #     style={'width': '100%', 'display': 'inline-block', 'padding-top': '5rem'}
+                # )
             ],
             style={'width': '100%', 'display': 'inline-block', 'padding': '1.5rem 10rem'}
         )
