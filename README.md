@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <img src="https://raw.githubusercontent.com/DaKeiser/vaccine-efficacy-prediction/master/assets/chaos-td.png" alt="Chaos" width="200">
+  <img src="https://raw.githubusercontent.com/DaKeiser/chaos/main/assets/chaos-td.png" alt="Chaos" width="200">
   <br>
   Vaccine Efficacy Tracker
   <br>
